@@ -67,10 +67,10 @@ jobs:
 
     working_directory: ~/repo
 
-    steps: 
+    steps:
       - checkout
 
-      - run: 
+      - run:
           name: install pyenv
           command: |
             brew install pyenv
@@ -166,6 +166,37 @@ jobs:
             . env/bin/activate
             make -C docs/ html doctest
 
+  test-linktest:
+    docker:
+      - image: circleci/python:3.7-stretch # as of march 2019 RTD uses 3.7
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "docs/requirements.txt" }}-{{ checksum "requirements.txt" }}-{{ .Environment.CIRCLE_JOB }}
+
+      - run:
+          name: install dependencies
+          command: |
+            python -m virtualenv env
+            . env/bin/activate
+            pip install -r docs/requirements.txt
+
+      - save_cache:
+          paths:
+            - ./env
+          key: v1-dependencies-{{ checksum "docs/requirements.txt" }}-{{ checksum "requirements.txt" }}-{{ .Environment.CIRCLE_JOB }}
+
+      - run:
+          name: linktest
+          command: |
+            . env/bin/activate
+            make -C docs/ html linkcheck linkcheck_retries=3 linkcheck_anchors=False linkcheck_ignore=[https:\/\/codecov.*]
+
   deploy:
     docker:
       - image: circleci/python:3.6-jessie
@@ -231,6 +262,7 @@ workflows:
       - test-osx-3.4
       - test-osx-2.7
       - test-doctest
+      - test-linktest
 
   deploy:
     jobs:
