@@ -164,7 +164,7 @@ jobs:
           name: doctest
           command: |
             . env/bin/activate
-            make -C docs/ doctest
+            make -C docs/ html doctest
 
       - run:
           name: linktest
