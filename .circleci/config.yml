@@ -164,7 +164,7 @@ jobs:
           name: doctest
           command: |
             . env/bin/activate
-            make -C docs/ html doctest
+            make -C docs/ doctest
 
   test-linktest:
     docker:
@@ -195,7 +195,7 @@ jobs:
           name: linktest
           command: |
             . env/bin/activate
-            make -C docs/ html linkcheck linkcheck_retries=3 linkcheck_anchors=False linkcheck_ignore=[https:\/\/codecov.*]
+            make -C docs/ linkcheck linkcheck_retries=3 linkcheck_anchors=False linkcheck_ignore=[https:\/\/codecov.*]
 
   deploy:
     docker:
