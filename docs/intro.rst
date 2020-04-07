@@ -24,8 +24,6 @@ a default sampler using the `set_default_sampler()` function.
 Example
 =======
 
->>> bad python example line
-
 Below you can see how to create Chimera graphs implemented in the D-Wave 2X and D-Wave 2000Q systems:
 
 .. code:: python
