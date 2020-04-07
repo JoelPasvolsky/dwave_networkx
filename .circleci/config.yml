@@ -170,7 +170,7 @@ jobs:
           name: linktest
           command: |
             . env/bin/activate
-            make -C docs/ linkcheck
+            make -C docs/ linkcheck linkcheck_retries=3 linkcheck_anchors=False linkcheck_ignore=[r'https:\/\/codecov.*', r'.*scipy.*']
 
   deploy:
     docker:
