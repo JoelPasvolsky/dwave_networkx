@@ -8,6 +8,7 @@ venv/
 docs/reference/generated/
 docs/reference/algorithms/generated/
 docs/reference/drawing/generated/
+docs/_build
 
 htmlcov/
 .coverage
